@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Week on Lower Gar</title>
+<style>
+  html { box-sizing: border-box; }
+  *, *:before, *:after { box-sizing: inherit; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #17303a; background: #eaf4f7; line-height: 1.5; font-size: 18px; }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 0 18px 90px; }
+
+  header.hero { background: linear-gradient(160deg, #0d6a8c 0%, #1596bf 55%, #37c0d6 100%); color: #fff; text-align: center; padding: 34px 20px 30px; border-radius: 0 0 26px 26px; box-shadow: 0 6px 22px rgba(9, 66, 88, 0.28); }
+  header.hero .kicker { letter-spacing: 3px; text-transform: uppercase; font-size: 13px; font-weight: 700; opacity: 0.92; }
+  header.hero h1 { font-family: Georgia, "Times New Roman", serif; font-weight: bold; font-size: 40px; line-height: 1.12; margin: 8px 0 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+  header.hero .dates { font-size: 20px; font-weight: 600; opacity: 0.97; }
+  header.hero .sub { margin-top: 12px; font-size: 16px; opacity: 0.95; }
+  .sunny { font-size: 30px; }
+
+  .card { background: #fff; border-radius: 18px; padding: 22px 22px 18px; margin: 22px 0; box-shadow: 0 3px 14px rgba(15, 70, 92, 0.10); }
+  h2.section { font-family: Georgia, "Times New Roman", serif; font-weight: bold; font-size: 27px; color: #0d6a8c; margin: 4px 0 4px; }
+  .section-note { color: #4a6470; font-size: 16px; margin: 0 0 14px; }
+  .goal-banner { background: #fff3cf; color: #7a5300; border-radius: 12px; padding: 12px 14px; font-weight: 700; font-size: 16px; margin: 0 0 14px; }
+
+  label.fieldlabel { display: block; font-weight: 700; margin: 14px 0 6px; font-size: 16px; }
+  input[type=text], select { font-size: 18px; padding: 11px 12px; border: 2px solid #bcd7e0; border-radius: 11px; background: #fff; color: #17303a; width: 100%; max-width: 420px; font-family: inherit; }
+  input[type=text]:focus, select:focus { outline: none; border-color: #1596bf; }
+
+  .whoami-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+  .whoami-row .col { flex: 1 1 200px; }
+
+  .pills { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pill { border: 2px solid #bcd7e0; background: #f2fafc; border-radius: 999px; padding: 10px 18px; font-weight: 700; cursor: pointer; user-select: none; font-size: 16px; }
+  .pill.on { background: #1596bf; color: #fff; border-color: #1596bf; }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #4a6470; margin: 2px 0 12px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 999px; vertical-align: middle; margin-left: 8px; text-transform: uppercase; }
+  .tag.kids { background: #ffe6b3; color: #8a5a00; }
+  .tag.everyone { background: #cdeecb; color: #2c6a2a; }
+  .tag.grown { background: #e0d6f5; color: #4b2f86; }
+
+  .price { display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 999px; margin-left: 8px; }
+  .price.free { background: #cdeecb; color: #2c6a2a; }
+  .price.paid { background: #fde0c7; color: #9a4a12; }
+  .price.unk { background: #e6ebee; color: #5a6b73; }
+
+  .filterbar { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 16px; }
+
+  .act { display: flex; align-items: center; gap: 12px; border: 2px solid #e2eef2; border-radius: 13px; padding: 11px 12px; margin: 9px 0; background: #fbfdfe; transition: background 0.12s, border-color 0.12s; }
+  .act.want { background: #e7f7ee; border-color: #57c07f; }
+  .act .star { font-size: 24px; cursor: pointer; line-height: 1; color: #cdd8dd; user-select: none; flex: 0 0 auto; }
+  .act.must .star { color: #f5a623; }
+  .act .body { flex: 1 1 auto; }
+  .act .name { font-weight: 600; font-size: 17px; }
+  .act .desc { font-size: 14px; color: #5a6b73; margin-top: 2px; }
+  .act .controls { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; }
+  .want-toggle { border: 2px solid #57c07f; color: #2c7a4a; background: #fff; border-radius: 999px; padding: 8px 15px; font-weight: 800; cursor: pointer; font-size: 15px; white-space: nowrap; }
+  .act.want .want-toggle { background: #57c07f; color: #fff; }
+  .day-sel { font-size: 15px; padding: 8px 9px; max-width: 190px; border-radius: 9px; }
+  .done-wrap { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #4a6470; font-weight: 700; white-space: nowrap; }
+  .done-wrap input { width: 22px; height: 22px; }
+
+  .subq { margin: 6px 0 2px 46px; padding: 10px 12px; background: #f4f9fb; border-radius: 11px; border: 1px solid #dceaef; }
+  .subq .q { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .subq .minipills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .subq .mp { border: 2px solid #bcd7e0; background: #fff; border-radius: 999px; padding: 6px 15px; font-weight: 800; cursor: pointer; font-size: 15px; user-select: none; }
+  .subq .mp.on { background: #0d6a8c; color: #fff; border-color: #0d6a8c; }
+  .subq .promise { margin-top: 8px; font-size: 14px; color: #2c6a2a; font-weight: 700; }
+  .checkgrid { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  .checkgrid label { display: flex; align-items: center; gap: 7px; font-size: 15px; cursor: pointer; }
+  .checkgrid input { width: 18px; height: 18px; }
+  .movielist { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
+  .movielist input { max-width: 440px; font-size: 15px; padding: 8px 10px; }
+
+  .supper-row { display: flex; flex-wrap: wrap; gap: 18px; }
+  .supper-row .col { flex: 1 1 220px; }
+
+  .hidden { display: none !important; }
+
+  textarea { width: 100%; min-height: 120px; font-size: 17px; padding: 12px; border: 2px solid #bcd7e0; border-radius: 12px; font-family: inherit; resize: vertical; }
+
+  .actionbar { position: sticky; bottom: 0; background: rgba(234, 244, 247, 0.96); backdrop-filter: blur(6px); padding: 14px 18px; margin: 24px 0 0; border-radius: 16px 16px 0 0; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; box-shadow: 0 -3px 14px rgba(15, 70, 92, 0.10); }
+  .btn { font-size: 17px; font-weight: 800; padding: 13px 20px; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; }
+  .btn.primary { background: #0d6a8c; color: #fff; }
+  .btn.go { background: #57c07f; color: #fff; }
+  .btn.plain { background: #fff; color: #0d6a8c; border: 2px solid #bcd7e0; }
+  .saved-note { text-align: center; color: #2c7a4a; font-weight: 700; min-height: 22px; margin-top: 8px; }
+
+  .count-chip { display: inline-block; background: #fff3cf; color: #8a5a00; font-weight: 800; border-radius: 999px; padding: 4px 12px; font-size: 15px; margin-left: 8px; }
+
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .actionbar, .filterbar, header.hero .sunny { display: none !important; }
+    .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .act { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="sunny">☀️ 🎣 🚤 🏖️</div>
+  <div class="kicker">Iowa Great Lakes Summer</div>
+  <h1>Family Week on Lower Gar</h1>
+  <div class="dates">Thursday July 23 to Thursday July 30, 2026</div>
+  <div class="sub">Pick what YOU want to do this week. Old people AND kids, fill this out together.<br>Star your must do adventures, tell us what day sounds fun, and check things off as you do them.</div>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2 class="section">First, who are you?</h2>
+    <p class="section-note">Everyone coming fills out their own. Parents, please help the little ones and fill out yours too so we know what the whole crew wants.</p>
+    <div class="whoami-row">
+      <div class="col">
+        <label class="fieldlabel" for="who">Your name</label>
+        <input type="text" id="who" placeholder="Type your name">
+      </div>
+      <div class="col">
+        <label class="fieldlabel">Are you a</label>
+        <div class="pills" id="agepills">
+          <div class="pill" data-age="kid">Kid</div>
+          <div class="pill" data-age="grownup">Old person</div>
+        </div>
+      </div>
+      <div class="col">
+        <label class="fieldlabel" for="kidage">If you are a kid, how old? (optional)</label>
+        <input type="text" id="kidage" placeholder="Age">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section">Anytime Adventures <span class="count-chip" id="wantcount">0 picked</span></h2>
+    <div class="goal-banner">Kids: the goal is to do as many of these as you can this week! Check each one off with Mom and Dad before bed every night.</div>
+    <p class="section-note">These can happen any day of the week. Tap a card to say "I want to do this." Tap the star to make it a MUST DO. Pick a day if you already have one in mind. Check the box when it is DONE.</p>
+    <div class="legend">
+      <span><span class="tag kids">Kids</span> great for kids</span>
+      <span><span class="tag everyone">Everyone</span> the whole crew</span>
+      <span><span class="tag grown">Old People</span> for the old people</span>
+    </div>
+    <div class="filterbar" id="filterbar">
+      <div class="pill on" data-filter="all">Show all</div>
+      <div class="pill" data-filter="kids">Kid stuff</div>
+      <div class="pill" data-filter="everyone">Everyone</div>
+      <div class="pill" data-filter="grown">Old people stuff</div>
+      <div class="pill" data-filter="mine">My picks only</div>
+    </div>
+    <div id="anytimeList"></div>
+  </div>
+
+  <div class="card">
+    <h2 class="section">Places to Eat and Drink</h2>
+    <p class="section-note">All of these are around the lakes. Check the ones your family wants to visit. A little note tells you what each one is known for.</p>
+    <div id="placeList"></div>
+  </div>
+
+  <div class="card">
+    <h2 class="section">Your Family Supper Night</h2>
+    <p class="section-note">Each family cooks the big family supper on one night. Dad is always available to run the grills. Tell us your first and second choice night AND what you are planning to cook, so no two families make the same thing. Any nights nobody takes, Grandma and Grandpa will cover. Your supper night is a surprise, your family can do anything it wants on your night!</p>
+    <div class="goal-banner">Thursday July 23 is already taken. Mom and Dad have the first night and Dad is making the big pulled pork, so you cannot pick that night.</div>
+    <div class="supper-row">
+      <div class="col">
+        <label class="fieldlabel" for="supper1">First choice night</label>
+        <select id="supper1"></select>
+      </div>
+      <div class="col">
+        <label class="fieldlabel" for="supper2">Second choice night</label>
+        <select id="supper2"></select>
+      </div>
+    </div>
+    <div style="margin-top:14px;">
+      <label class="fieldlabel" for="suppermeal">What are you planning to cook that night?</label>
+      <input type="text" id="suppermeal" placeholder="Tell us the meal so we do not double up">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section">Special Events That Week</h2>
+    <p class="section-note">These happen at a set date and time around the lakes. Check the ones you want to go to. Some are just for the old people, some are perfect for kids. Prices are listed where we could find them.</p>
+    <div id="eventList"></div>
+  </div>
+
+  <div class="card">
+    <h2 class="section">Anything Grandpa forgot?</h2>
+    <p class="section-note">List any other adventures you want this week. Big or small, silly or fancy. This is your spot to dream it up.</p>
+    <textarea id="ideas" placeholder="Example: build the biggest sandcastle, night fishing off the dock, a giant pancake breakfast..."></textarea>
+  </div>
+
+  <div class="actionbar">
+    <button class="btn go" id="emailBtn">Send my picks to Grandpa Mark</button>
+    <button class="btn primary" id="printBtn">Print or Save as PDF</button>
+    <button class="btn plain" id="saveBtn">Save my answers</button>
+    <button class="btn plain" id="freshBtn">Start fresh for a new person</button>
+  </div>
+  <div class="saved-note" id="savedNote"></div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DAYS = ["Any day","Thu Jul 23","Fri Jul 24","Sat Jul 25","Sun Jul 26","Mon Jul 27","Tue Jul 28","Wed Jul 29","Thu Jul 30"];
+  var SUPPERDAYS = ["Fri Jul 24","Sat Jul 25","Sun Jul 26","Mon Jul 27","Tue Jul 28","Wed Jul 29","Thu Jul 30"];
+
+  var BREAKFAST = ["Gruber sausage","Breakfast steak","Fried monkey lips","Bacon","Ham","Rabbit ears","Scrambled eggs","Hard boiled eggs","Duck beaks","Sunny side up eggs","Pancakes","Horse tongue","French toast","Plain toast","Goose down feathers","English muffins","Bagels","Cow gizzards","Hash browns","Donuts","Raccoon tails","Peanut butter jelly","Green beans","Spicy radishes","Lake water","Raspberries","Strawberries","Grapes","Orange juice","Grape juice","Apple juice","Grapefruit juice","Spinach juice","Milk","Coffee"];
+
+  // aud: kids | everyone | grown(shown as "Old People")
+  var ANYTIME = [
+    {n:"Casting contest", a:"everyone"},
+    {n:"Make Jell O", a:"kids"},
+    {n:"Play all the ridiculous games that Olivia makes up around the bar late at night", a:"grown"},
+    {n:"Go for a walk or a long walk around the lake", a:"everyone"},
+    {n:"Shirley Temples and Roy Rogers", a:"kids", d:"Have Grandpa make them so you can drink them out on the dock, in the backyard, or even at Grandpa's bar."},
+    {n:"Take a shower outside on Grandpa's outside shower", a:"kids"},
+    {n:"Go tubing", a:"everyone", sub:{q:"How fast do you want to go?", opts:["Really fast","Medium","Really slow"]}},
+    {n:"Dress up and go to happy hour", a:"everyone"},
+    {n:"Go to church", a:"everyone"},
+    {n:"Lay out in the sun at the end of the dock", a:"everyone"},
+    {n:"Go find some sweet corn to eat", a:"everyone"},
+    {n:"Go out on the kayak", a:"everyone"},
+    {n:"Wake Grandpa and Grandma up and snuggle and watch TV in their room", a:"kids"},
+    {n:"Swim off the pontoon on the big inflatable pad (the one with the hole in the middle)", a:"everyone"},
+    {n:"Slide down the Barefoot Bar slide into the lake", a:"kids", d:"The slide is for the kids."},
+    {n:"Stay up late and watch movies in the upstairs bunk room", a:"kids", movies:{q:"Type five movies you want to watch upstairs this week. Most votes win!"}},
+    {n:"Movie night with popcorn in Grandpa's downstairs burgundy room", a:"everyone", movies:{q:"Type five movies you want to watch downstairs this week. Most votes win!"}},
+    {n:"Eat supper or lunch on the screen porch", a:"everyone"},
+    {n:"Go swimming off the dock", a:"everyone"},
+    {n:"Bean bag tournament", a:"everyone"},
+    {n:"Play three minutes to win it", a:"everyone", d:"Just like we did at Thanksgiving."},
+    {n:"Color fishing lures", a:"kids"},
+    {n:"Sand Beach swimming", a:"everyone", d:"At Terrace Park Beach on the south shore of West Lake Okoboji."},
+    {n:"Explore the Nature Center", a:"everyone", d:"Free. Climb through a giant honeycomb, pollinate a pretend apple orchard, watch live bees under glass, and let the little ones play in the wetland kids area. Open Tuesday to Saturday, 10 AM to 4 PM."},
+    {n:"Sort out the tackle box lures and get ready for fishing", a:"kids"},
+    {n:"Arnolds Park amusement rides", a:"everyone", d:"Ride the Legend, a wooden roller coaster from 1927, plus the Log Flume, Tilt A Whirl, the Octopus, the Liberty Wheel Ferris wheel, and the carousel. A Kiddie Coaster and kid boats for the little ones.", sub:{q:"How many days do you want to go?", opts:["1","2","3"], unit:"day"}},
+    {n:"Children's theater", a:"kids"},
+    {n:"Go visit the boathouse", a:"everyone"},
+    {n:"Bluegill fishing off the dock", a:"everyone"},
+    {n:"Bluegill fishing off the pontoon", a:"everyone"},
+    {n:"Catch any fish other than a bluegill", a:"everyone"},
+    {n:"Brooks golf range", a:"everyone"},
+    {n:"Go out on the paddle board", a:"everyone"},
+    {n:"Go play at Grandma Suzy's Playground", a:"kids"},
+    {n:"Bake cookies with Grandma", a:"kids"},
+    {n:"Help cook breakfast", a:"everyone", checks:BREAKFAST, checksq:"Check everything you want for breakfast this week:"},
+    {n:"Cook the evening meal", a:"grown", d:"For the old people."},
+    {n:"Saturday night fireworks", a:"everyone"},
+    {n:"Play on the water toys in the backyard", a:"kids"},
+    {n:"Adult golfing", a:"grown", sub:{q:"How many times do you want to golf this week?", opts:["1","2","3"], promise:"Grandpa and Grandma agree to watch the kids so all the adults can go golfing.", unit:"time"}},
+    {n:"Go win at pull tabs and have the old people pay for them", a:"kids"},
+    {n:"Just go hang out in the boat", a:"everyone"},
+    {n:"Gin and juice run", a:"grown"},
+    {n:"Kids' talent show in front of all the adults", a:"kids"},
+    {n:"Remind Parker that he sleeps on the couch down in the basement", a:"everyone"},
+    {n:"Evening card tournament, Euchre", a:"grown"},
+    {n:"Sauna time", a:"grown"},
+    {n:"Steam shower time", a:"grown"}
+  ];
+
+  // Lakeside bars, restaurants, and treat stands.
+  var PLACES = [
+    {n:'Go to "Mullets"', a:"everyone", d:"Waterfront bar known for burgers, breakfast platters, and award winning Bloody Marys."},
+    {n:'Go to "Woodies"', a:"grown", d:"A lakeside bar. Menu not confirmed, ask Grandpa what is good here."},
+    {n:'Go to "Brocco\'s"', a:"everyone", d:"Island themed bar with burgers, jambalaya, and island drinks. May be closed, check first."},
+    {n:'Go to "The Waterfront"', a:"everyone", d:"Lakeside dining known for steaks, seafood, pasta, and pizza with patio views."},
+    {n:'Go to "The Ritz"', a:"everyone", d:"Lakeside bar famous for giant fishbowl drinks, flatbread pizzas, and the Lue Burger."},
+    {n:'Go to "The Store"', a:"everyone", d:"Family friendly lakeside bar with burgers, fish tacos, live music, and a playground."},
+    {n:'Go to "Dairy Queen" in Milford', a:"everyone", d:"Soft serve ice cream, Blizzards, shakes, burgers, and fries."},
+    {n:'Go to the "Gingham Inn"', a:"everyone", d:"Known for gizzards, french fries, and refreshments."},
+    {n:'Go to "Spud Nuts"', a:"everyone", d:"A donut shop famous for its potato flour donuts."},
+    {n:'Go to the "Nutty Bar"', a:"everyone", d:"The Nutty Bar Stand at Arnolds Park since 1945. Ice cream dipped in chocolate and rolled in peanuts."},
+    {n:'Go to the "Barefoot Bar"', a:"everyone", d:"Lakeside bar at Parks Marina with live music and the famous slide into the lake."}
+  ];
+
+  // [name, when, where, aud, desc, price] in date order
+  var EVENTS = [
+    ["Milford Kiwanis Bingo Night","Thu July 23, 6:00 to 8:00 PM","VFW in Spirit Lake","everyone","Bingo night at the VFW in Spirit Lake. Bingo starts at 6:00 PM.","Bring money for cards"],
+    ["Anthony Koester Band","Fri July 24, 1:00 PM","The Store","everyone","Live afternoon music at The Store.","Price unknown"],
+    ["Crowder in concert","Fri July 24, 7:30 PM","Preservation Plaza","grown","Contemporary Christian concert with special guest Jason Gray. You can also hear it for free from the shelter house.","About $39"],
+    ["Live Music by Wrecked Becky","Fri July 24 and Sat July 25, 7:00 to 11:00 PM","The Barefoot Bar","grown","Evening bar band at the Barefoot Bar.","Free live music"],
+    ["Never Can Say Goodbye: The 70s Beehive Musical","Fri July 24 8:00 PM, Sat July 25 4:30 and 8:00 PM, Sun July 26 4:30 and 8:00 PM","Okoboji Summer Theatre","grown","A feel good 1970s jukebox musical. Old people only.","About $26"],
+    ["Blake Jack","Fri July 24 and Sat July 25, 8:00 PM","The Okoboji Store","grown","Evening live music. Old people only.","Price unknown"],
+    ["Varsity Rejects","Fri July 24 and Sat July 25, 9:00 PM","Captain's Getaway","grown","Late night live band. Old people only.","Price unknown"],
+    ["University of Okoboji Vettes in the Park Car Show","Sat July 25, 8:00 AM to 2:30 PM","Arnolds Park","everyone","Iowa's largest Corvette show, about 100 Corvettes plus feature supercars.","Free"],
+    ["Farmers Market in the Park","Saturday mornings, 8:30 AM to 12:30 PM","Arnolds Park","everyone","Local produce, treats and crafts.","Free to walk"],
+    ["Antique and Classic Boat Show","Sat July 25, 10:00 AM to 2:30 PM","Arnolds Park Amusement Park","everyone","Dozens of restored vintage and wooden boats on display.","Free"],
+    ["Live Music by Rock Ala Coustic","Sat July 25, 2:30 to 6:30 PM","The Barefoot Bar","everyone","Afternoon acoustic music at the Barefoot Bar.","Free live music"],
+    ["Live at the Lake: The Fabulous Thunderbirds","Sat July 25, 7:30 PM","Preservation Plaza","everyone","Roots and blues rock band famous for Tuff Enuff. Free show, all ages.","Free"],
+    ["The Schmidt Brothers Band, 80s Rock","Sun July 26, 8:00 PM","The Okoboji Store","grown","Evening 80s rock. Old people only.","Price unknown"],
+    ["Dinner in the Sky, Tacos and Tequila","Mon July 27, 6:00 PM","Arnolds Park Amusement Park","grown","A four course meal served on a platform lifted high above the lake. Advance tickets required, buy 2.","$119 each"],
+    ["Heart By Heart with Steve Fossen and Michael Derosier","Tue July 28, 7:30 to 10:00 PM","Pearson Lakes Art Center","grown","The original bass and drums from the band Heart, playing classic hits like Barracuda and Crazy On You.","About $40 to $50"],
+    ["Our Town, a play","Tue July 28 and Wed July 29, 8:00 PM","Okoboji Summer Theatre","everyone","The classic American play about small town life.","About $26"],
+    ["Preschool Picassos","Wed July 29, 10:00 to 11:00 AM","Pearson Lakes Art Center","kids","A hands on art class for little ones, ages 3 to 5. Call 712.332.7029.","Call for price"],
+    ["Nature Mysteries: How Did This Seed Get Here?","Wed July 29, 10:30 to 11:30 AM","Dickinson County Nature Center","kids","A kids nature program about how seeds travel and grow. Ages 5 to 12.","Free"],
+    ["Full Moon Party: The Johnny Holm Band","Wed July 29, 7:00 PM","The Barefoot Bar","grown","A big lakeside party band. Come early for the seafood boil.","Free, no cover"],
+    ["Free Movies by the Lake","Wed July 29, 8:00 PM","Preservation Plaza","everyone","Outdoor movie night, bring chairs and blankets. Showing Mission: Impossible, The Final Reckoning.","Free"],
+    ["Rock The Roof: The Expressions","Thu July 30, 5:00 PM","Roof Garden Ballroom","everyone","An oldies and Motown soul dance band in the historic Roof Garden Ballroom.","About $10 to $15"]
+  ];
+
+  var TAGLABEL = { kids: "Kids", everyone: "Everyone", grown: "Old People" };
+
+  function el(tag, cls, txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
+
+  var anytimeList = document.getElementById("anytimeList");
+  var placeList = document.getElementById("placeList");
+  var eventList = document.getElementById("eventList");
+  var currentFilter = "all";
+
+  function buildActivityRow(item, i, listEl, idxAttr){
+    var row=el("div","act");
+    row.setAttribute(idxAttr, i);
+    row.setAttribute("data-aud", item.a);
+
+    var star=el("div","star","☆");
+    star.title="Make this a must do";
+    row.appendChild(star);
+
+    var body=el("div","body");
+    body.appendChild(el("span","name",item.n));
+    body.appendChild(el("span","tag "+item.a, TAGLABEL[item.a]));
+    if(item.d){ body.appendChild(el("div","desc", item.d)); }
+    row.appendChild(body);
+
+    var controls=el("div","controls");
+    var want=el("div","want-toggle","I want to!");
+    controls.appendChild(want);
+    var sel=document.createElement("select");
+    sel.className="day-sel hidden";
+    DAYS.forEach(function(d){ var o=document.createElement("option"); o.value=d; o.textContent=(d==="Any day"?"Which day? Any day":d); sel.appendChild(o); });
+    controls.appendChild(sel);
+    var doneWrap=el("label","done-wrap");
+    var doneCb=document.createElement("input"); doneCb.type="checkbox"; doneCb.className="done";
+    doneWrap.appendChild(doneCb); doneWrap.appendChild(document.createTextNode("Done"));
+    controls.appendChild(doneWrap);
+    row.appendChild(controls);
+
+    function toggleWant(){ row.classList.toggle("want"); sel.classList.toggle("hidden", !row.classList.contains("want")); updateCount(); }
+    function ensureWant(){ if(!row.classList.contains("want")) toggleWant(); }
+    row.addEventListener("click", function(ev){
+      if(ev.target===star || ev.target.closest(".controls") || ev.target.closest(".subq")) return;
+      toggleWant();
+    });
+    want.addEventListener("click", function(ev){ ev.stopPropagation(); toggleWant(); });
+    star.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      row.classList.toggle("must");
+      star.textContent = row.classList.contains("must") ? "★" : "☆";
+      if(row.classList.contains("must")) ensureWant();
+    });
+    doneCb.addEventListener("click", function(ev){ ev.stopPropagation(); });
+
+    listEl.appendChild(row);
+
+    if(item.sub){
+      var sub=el("div","subq");
+      sub.appendChild(el("div","q", item.sub.q));
+      var mp=el("div","minipills");
+      item.sub.opts.forEach(function(v){
+        var b=el("div","mp",v); b.setAttribute("data-optv",v);
+        b.addEventListener("click", function(ev){ ev.stopPropagation(); mp.querySelectorAll(".mp").forEach(function(x){ x.classList.remove("on"); }); b.classList.add("on"); ensureWant(); });
+        mp.appendChild(b);
+      });
+      sub.appendChild(mp);
+      if(item.sub.promise){ sub.appendChild(el("div","promise", item.sub.promise)); }
+      listEl.appendChild(sub);
+    } else if(item.checks){
+      var sub2=el("div","subq");
+      sub2.appendChild(el("div","q", item.checksq||"Check what you want:"));
+      var grid=el("div","checkgrid");
+      item.checks.forEach(function(c){
+        var lab=document.createElement("label");
+        var cb=document.createElement("input"); cb.type="checkbox"; cb.className="chk"; cb.setAttribute("data-checkv",c);
+        cb.addEventListener("change", function(ev){ ev.stopPropagation(); if(cb.checked) ensureWant(); });
+        lab.appendChild(cb); lab.appendChild(document.createTextNode(" "+c));
+        grid.appendChild(lab);
+      });
+      sub2.appendChild(grid);
+      listEl.appendChild(sub2);
+    } else if(item.movies){
+      var sub3=el("div","subq");
+      sub3.appendChild(el("div","q", item.movies.q||"Type five movies you want to watch this week:"));
+      var ml=el("div","movielist");
+      for(var mi=0; mi<5; mi++){
+        var inp=document.createElement("input"); inp.type="text"; inp.className="mvin"; inp.setAttribute("data-mvi",mi); inp.placeholder="Movie "+(mi+1);
+        inp.addEventListener("input", function(){ if(this.value.trim()) ensureWant(); });
+        inp.addEventListener("click", function(ev){ ev.stopPropagation(); });
+        ml.appendChild(inp);
+      }
+      sub3.appendChild(ml);
+      listEl.appendChild(sub3);
+    }
+    return row;
+  }
+
+  ANYTIME.forEach(function(item, i){ buildActivityRow(item, i, anytimeList, "data-i"); });
+  PLACES.forEach(function(item, i){ buildActivityRow(item, i, placeList, "data-p"); });
+
+  EVENTS.forEach(function(item, i){
+    var name=item[0], when=item[1], where=item[2], aud=item[3], desc=item[4], price=item[5];
+    var row=el("div","act");
+    row.setAttribute("data-ev", i);
+
+    var body=el("div","body");
+    var nm=el("div","name",name); body.appendChild(nm);
+    nm.appendChild(el("span","tag "+aud, TAGLABEL[aud]));
+    if(price){ nm.appendChild(priceBadge(price)); }
+    var det=el("div","desc"); det.textContent = when + "  at  " + where;
+    body.appendChild(det);
+    if(desc){ var dd=el("div","desc", desc); dd.style.color="#42545c"; body.appendChild(dd); }
+    row.appendChild(body);
+
+    var controls=el("div","controls");
+    var want=el("div","want-toggle","I want to go!");
+    controls.appendChild(want);
+    row.appendChild(controls);
+
+    function toggleWant(){ row.classList.toggle("want"); }
+    row.addEventListener("click", function(ev){ if(ev.target.closest(".controls")) return; toggleWant(); });
+    want.addEventListener("click", function(ev){ ev.stopPropagation(); toggleWant(); });
+
+    eventList.appendChild(row);
+  });
+
+  var s1=document.getElementById("supper1"), s2=document.getElementById("supper2");
+  [s1,s2].forEach(function(sel){
+    var o0=document.createElement("option"); o0.value=""; o0.textContent="Pick a night"; sel.appendChild(o0);
+    SUPPERDAYS.forEach(function(d){ var o=document.createElement("option"); o.value=d; o.textContent=d; sel.appendChild(o); });
+  });
+
+  function priceBadge(p){
+    var cls="paid", low=(""+p).toLowerCase();
+    if(low.indexOf("free")>=0) cls="free";
+    else if(low.indexOf("unknown")>=0 || low.indexOf("call")>=0 || low.indexOf("bring")>=0) cls="unk";
+    return el("span","price "+cls, p);
+  }
+
+  function updateCount(){
+    var n = anytimeList.querySelectorAll(".act.want").length + placeList.querySelectorAll(".act.want").length;
+    document.getElementById("wantcount").textContent = n + " picked";
+    applyFilter();
+  }
+
+  var agePills = document.getElementById("agepills");
+  agePills.addEventListener("click", function(ev){
+    var p=ev.target.closest(".pill"); if(!p) return;
+    agePills.querySelectorAll(".pill").forEach(function(x){ x.classList.remove("on"); });
+    p.classList.add("on");
+  });
+
+  var filterbar = document.getElementById("filterbar");
+  filterbar.addEventListener("click", function(ev){
+    var p=ev.target.closest(".pill"); if(!p) return;
+    filterbar.querySelectorAll(".pill").forEach(function(x){ x.classList.remove("on"); });
+    p.classList.add("on");
+    currentFilter = p.getAttribute("data-filter");
+    applyFilter();
+  });
+
+  function applyFilter(){
+    anytimeList.querySelectorAll(".act").forEach(function(row){
+      var aud=row.getAttribute("data-aud");
+      var show=true;
+      if(currentFilter==="mine") show=row.classList.contains("want");
+      else if(currentFilter!=="all") show=(aud===currentFilter);
+      row.classList.toggle("hidden", !show);
+      var sub=row.nextElementSibling;
+      if(sub && sub.classList && sub.classList.contains("subq")) sub.classList.toggle("hidden", !show);
+    });
+  }
+
+  function subVal(row){ var sub=row.nextElementSibling; if(sub && sub.classList && sub.classList.contains("subq")){ var on=sub.querySelector(".mp.on"); return on?on.getAttribute("data-optv"):""; } return ""; }
+  function checksVal(row){ var sub=row.nextElementSibling; var out=[]; if(sub && sub.classList && sub.classList.contains("subq")){ sub.querySelectorAll(".chk").forEach(function(cb){ if(cb.checked) out.push(cb.getAttribute("data-checkv")); }); } return out; }
+  function moviesVal(row){ var sub=row.nextElementSibling; var out=[]; if(sub && sub.classList && sub.classList.contains("subq")){ sub.querySelectorAll(".mvin").forEach(function(inp){ out.push(inp.value); }); } return out; }
+
+  function collectRows(listEl, idxAttr){
+    var arr=[];
+    listEl.querySelectorAll(".act").forEach(function(row){
+      arr.push({
+        i:row.getAttribute(idxAttr),
+        want:row.classList.contains("want"),
+        must:row.classList.contains("must"),
+        done:!!row.querySelector(".done").checked,
+        day:row.querySelector(".day-sel").value,
+        sub:subVal(row),
+        checks:checksVal(row),
+        movies:moviesVal(row)
+      });
+    });
+    return arr;
+  }
+
+  function collect(){
+    var on=agePills.querySelector(".pill.on");
+    return {
+      who:val("who"), kidage:val("kidage"), age:(on?on.getAttribute("data-age"):""),
+      supper1:s1.value, supper2:s2.value, suppermeal:val("suppermeal"), ideas:val("ideas"),
+      anytime:collectRows(anytimeList,"data-i"),
+      places:collectRows(placeList,"data-p"),
+      events:(function(){ var a=[]; eventList.querySelectorAll(".act").forEach(function(row){ a.push({i:row.getAttribute("data-ev"), want:row.classList.contains("want")}); }); return a; })()
+    };
+  }
+  function val(id){ return (document.getElementById(id)||{}).value || ""; }
+
+  function restoreRows(rows, listEl, idxAttr){
+    (rows||[]).forEach(function(a){
+      var row=listEl.querySelector('.act['+idxAttr+'="'+a.i+'"]'); if(!row) return;
+      if(a.want) row.classList.add("want");
+      if(a.must){ row.classList.add("must"); row.querySelector(".star").textContent="★"; }
+      var sel=row.querySelector(".day-sel"); sel.classList.toggle("hidden", !a.want); if(a.day) sel.value=a.day;
+      row.querySelector(".done").checked=!!a.done;
+      var sub=row.nextElementSibling;
+      if(sub && sub.classList && sub.classList.contains("subq")){
+        if(a.sub){ var b=sub.querySelector('.mp[data-optv="'+a.sub+'"]'); if(b) b.classList.add("on"); }
+        (a.checks||[]).forEach(function(c){ var cb=sub.querySelector('.chk[data-checkv="'+c+'"]'); if(cb) cb.checked=true; });
+        (a.movies||[]).forEach(function(v,idx){ var inp=sub.querySelector('.mvin[data-mvi="'+idx+'"]'); if(inp) inp.value=v||""; });
+      }
+    });
+  }
+
+  function restore(data){
+    if(!data) return;
+    setVal("who",data.who); setVal("kidage",data.kidage); setVal("ideas",data.ideas);
+    if(data.supper1) s1.value=data.supper1;
+    if(data.supper2) s2.value=data.supper2;
+    if(data.suppermeal) setVal("suppermeal", data.suppermeal);
+    if(data.age){ agePills.querySelectorAll(".pill").forEach(function(p){ p.classList.toggle("on", p.getAttribute("data-age")===data.age); }); }
+    restoreRows(data.anytime, anytimeList, "data-i");
+    restoreRows(data.places, placeList, "data-p");
+    (data.events||[]).forEach(function(e){ var row=eventList.querySelector('.act[data-ev="'+e.i+'"]'); if(row && e.want) row.classList.add("want"); });
+    updateCount();
+  }
+  function setVal(id,v){ var e=document.getElementById(id); if(e) e.value=v||""; }
+
+  var KEY="lowerGarWeek2026";
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(collect())); flash("Saved! Your answers will still be here if you come back."); }
+    catch(e){ flash("Could not save on this device, but you can still print or send."); }
+  }
+  function flash(msg){ var n=document.getElementById("savedNote"); n.textContent=msg; setTimeout(function(){ if(n.textContent===msg) n.textContent=""; }, 4000); }
+
+  document.getElementById("saveBtn").addEventListener("click", save);
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+  document.getElementById("freshBtn").addEventListener("click", function(){
+    if(confirm("Clear this form for a new person? Make sure the last person already saved or sent their picks.")){
+      try { localStorage.removeItem(KEY); } catch(e){}
+      window.location.reload();
+    }
+  });
+
+  try { restore(JSON.parse(localStorage.getItem(KEY))); } catch(e){}
+  var autosave; ["input","change","click"].forEach(function(evt){
+    document.body.addEventListener(evt, function(){ clearTimeout(autosave); autosave=setTimeout(function(){ try{ localStorage.setItem(KEY, JSON.stringify(collect())); }catch(e){} }, 700); });
+  });
+  updateCount();
+
+  function labelDetail(it, a){
+    var label=it.n;
+    if(a.sub){ if(it.sub && it.sub.unit){ label += " ("+a.sub+" "+it.sub.unit+(a.sub==="1"?"":"s")+")"; } else { label += " ("+a.sub+")"; } }
+    if(a.checks && a.checks.length){ label += " (wants: "+a.checks.join(", ")+")"; }
+    if(a.movies){ var mv=(a.movies||[]).filter(function(x){ return x && x.trim(); }); if(mv.length){ label += " (movie picks: "+mv.join(", ")+")"; } }
+    return label;
+  }
+
+  document.getElementById("emailBtn").addEventListener("click", function(){
+    var d=collect();
+    var name=d.who||"Someone";
+    var lines=[];
+    lines.push(name+" wants to do this on Family Week on Lower Gar!");
+    lines.push(d.age?("("+ (d.age==="kid"?("Kid"+(d.kidage?(", age "+d.kidage):"")):"Old person") +")"):"");
+    lines.push("");
+    var musts=[], wants=[];
+    d.anytime.forEach(function(a){
+      if(!a.want && !a.must) return;
+      var it=ANYTIME[parseInt(a.i,10)];
+      var label=labelDetail(it, a);
+      var extra=[]; if(a.day && a.day!=="Any day") extra.push(a.day); if(a.done) extra.push("already done");
+      var line=label+(extra.length?(" ["+extra.join(", ")+"]"):"");
+      if(a.must) musts.push(line); else wants.push(line);
+    });
+    if(musts.length){ lines.push("MUST DO adventures:"); musts.forEach(function(x){ lines.push("  * "+x); }); lines.push(""); }
+    if(wants.length){ lines.push("Would like to do:"); wants.forEach(function(x){ lines.push("  * "+x); }); lines.push(""); }
+    var places=[]; d.places.forEach(function(a){ if(a.want||a.must){ places.push(PLACES[parseInt(a.i,10)].n); } });
+    if(places.length){ lines.push("Places to eat and drink we want to visit:"); places.forEach(function(x){ lines.push("  * "+x); }); lines.push(""); }
+    if(d.supper1 || d.supper2 || d.suppermeal){ lines.push("Our family supper night: 1st choice "+(d.supper1||"none")+", 2nd choice "+(d.supper2||"none")+(d.suppermeal?(", cooking: "+d.suppermeal):"")); lines.push(""); }
+    var evs=[]; d.events.forEach(function(e){ if(e.want){ var ev=EVENTS[parseInt(e.i,10)]; evs.push(ev[0]+" ("+ev[1]+")"); } });
+    if(evs.length){ lines.push("Special events we want to go to:"); evs.forEach(function(x){ lines.push("  * "+x); }); lines.push(""); }
+    if(d.ideas){ lines.push("Other ideas Grandpa forgot:"); lines.push("  "+d.ideas); lines.push(""); }
+    if(!musts.length && !wants.length && !places.length && !evs.length && !d.ideas){ lines.push("(No picks yet. Tap some adventures first!)"); }
+    var subject="Lower Gar week picks from "+name;
+    window.location.href="mailto:mark@mi-ai.net?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(lines.join("\n"));
+  });
+
+})();
+</script>
+</body>
+</html>
