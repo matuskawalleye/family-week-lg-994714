@@ -586,8 +586,10 @@
     if(evs.length){ lines.push("Special events we want to go to:"); evs.forEach(function(x){ lines.push("  * "+x); }); lines.push(""); }
     if(d.ideas){ lines.push("Other ideas Grandpa forgot:"); lines.push("  "+d.ideas); lines.push(""); }
     if(!musts.length && !wants.length && !places.length && !evs.length && !d.ideas){ lines.push("(No picks yet. Tap some adventures first!)"); }
+    var payload={ n:name, who:d.age, age:d.kidage, m:musts, w:wants, p:places, e:evs, s1:d.supper1, s2:d.supper2, meal:d.suppermeal, i:d.ideas, t:(new Date()).toLocaleString() };
+    var body=lines.join("\n")+"\n\n[LGDATA]"+JSON.stringify(payload)+"[/LGDATA]";
     var subject="Lower Gar week picks from "+name;
-    window.location.href="mailto:mark@mi-ai.net?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(lines.join("\n"));
+    window.location.href="mailto:matuskawalleye@hotmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
   });
 
 })();
