@@ -461,6 +461,11 @@
       var aud=row.getAttribute("data-aud");
       var show=true;
       if(currentFilter==="mine") show=row.classList.contains("want");
+      // "everyone" items belong to BOTH kids and old people, so an audience
+      // filter must include them. (Bug fix 2026-07-15: "Kid stuff" was hiding the
+      // breakfast checklist and every other "everyone" item, incl. the funny options.)
+      else if(currentFilter==="kids") show=(aud==="kids"||aud==="everyone");
+      else if(currentFilter==="grown") show=(aud==="grown"||aud==="everyone");
       else if(currentFilter!=="all") show=(aud===currentFilter);
       row.classList.toggle("hidden", !show);
       var sub=row.nextElementSibling;
